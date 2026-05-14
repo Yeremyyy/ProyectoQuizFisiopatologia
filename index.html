@@ -92,8 +92,29 @@
     </div>
 
     <!-- Modal para Tabla de Récords -->
+    <!-- Modal para Tabla de Récords -->
     <div id="records-modal" class="modal-overlay hidden">
-        <!-- Contenido del modal -->
+        <div class="modal-content animate__animated animate__zoomIn">
+            <h2><i class="fas fa-trophy" style="color: gold;"></i> Historial de Evaluaciones</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Especialista</th>
+                            <th>Nivel</th>
+                            <th>Puntos</th>
+                        </tr>
+                    </thead>
+                    <tbody id="records-body">
+                        <!-- JavaScript inyectará las filas (tr) y celdas (td) aquí automáticamente -->
+                    </tbody>
+                </table>
+            </div>
+            <button id="close-records-btn" class="main-btn" style="margin-top: 15px; width: 100%;">
+                <i class="fas fa-times"></i> Cerrar Historial
+            </button>
+        </div>
     </div>
 
     <!-- Scripts deferidos -->
