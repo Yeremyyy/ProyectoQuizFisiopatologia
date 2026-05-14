@@ -2,6 +2,8 @@ export class QuizModel {
     constructor() {
         this.user = { name: "", level: "facil", score: 0 };
         this.currentIndex = 0;
+        this.activeQuestions = []; // Aquí guardaremos las preguntas únicas barajadas
+        
         this.questionsBank = {
             facil: [
                 { type: 'multiple', question: "¿Qué hormona es la principal responsable de disminuir la glucemia?", options: ["Glucagón", "Insulina", "Cortisol", "Adrenalina"], answer: "Insulina", exp: "La insulina facilita la entrada de glucosa a las células, reduciendo su nivel en sangre." },
@@ -25,33 +27,39 @@ export class QuizModel {
                 { type: 'multiple', question: "¿Qué efecto tiene el Glucagón?", options: ["Baja la glucosa", "Sube la glucosa", "Sube el colesterol", "Baja la presión"], answer: "Sube la glucosa", exp: "Estimula la glucogenólisis y gluconeogénesis hepática." },
                 { type: 'multiple', question: "La dislipidemia en el Síndrome Metabólico se caracteriza por:", options: ["HDL alto", "Triglicéridos bajos", "HDL bajo y Triglicéridos altos", "LDL muy bajo"], answer: "HDL bajo y Triglicéridos altos", exp: "Es el perfil lipídico aterogénico clásico de este cuadro." },
                 { type: 'tf', question: "¿La resistencia a la insulina ocurre principalmente en músculo, hígado y tejido adiposo?", answer: true, exp: "Son los tres órganos diana donde la señalización del receptor se ve alterada." },
-                { type: 'multiple', question: "¿Cuál es el transportador de glucosa que actúa como sensor en la célula beta?", options: ["GLUT1", "GLUT2", "GLUT4", "SGLT2"], answer: "GLUT2", exp: "Tiene una alta Km, permitiendo detectar variaciones de glucemia." },
-                ...Array.from({length: 10}, (_, i) => ({
-                    type: 'multiple', 
-                    question: `Pregunta de Control Metabólico #${i+1}: ¿Qué vía se activa en ayuno prolongado?`, 
-                    options: ["Glucólisis", "Gluconeogénesis", "Lipogénesis", "Síntesis proteica"], 
-                    answer: "Gluconeogénesis", 
-                    exp: "El cuerpo fabrica glucosa a partir de sustratos no carbohidratos."
-                }))
+                { type: 'multiple', question: "¿Cuál es el transportador de glucosa que actúa como sensor en la célula beta?", options: ["GLUT1", "GLUT2", "GLUT4", "SGLT2"], answer: "GLUT2", exp: "Tiene una alta Km, permitiendo detectar variaciones de glucemia." }
             ],
             avanzado: [
                 { type: 'desarrollo', question: "Explique la fisiopatología de la resistencia a la insulina mediada por inflamación (TNF-alfa).", keywords: ["TNF-alfa", "serina", "IRS-1", "fosforilación", "quinasa"], answer_guide: "El TNF-α activa quinasas que fosforilan el IRS-1 en residuos de serina en lugar de tirosina, bloqueando la señalización." },
                 { type: 'desarrollo', question: "Analice el mecanismo por el cual la hiperglucemia crónica produce sorbitol y daño osmótico.", keywords: ["polioles", "sorbitol", "aldosa reductasa", "osmótico", "edema"], answer_guide: "La glucosa en exceso entra en la vía de los polioles, convirtiéndose en sorbitol, el cual no sale de la célula y causa daño osmótico." },
                 { type: 'desarrollo', question: "Describa la relación entre el estrés del Retículo Endoplasmático y la apoptosis de la célula Beta.", keywords: ["UPR", "proteínas", "plegamiento", "apoptosis", "estrés"], answer_guide: "La alta demanda de insulina causa mal plegamiento proteico, activando la respuesta UPR que puede llevar a la muerte celular." },
                 { type: 'tf', question: "¿La lipotoxicidad contribuye a la resistencia a la insulina mediante la acumulación de diacilglicerol (DAG)?", answer: true, exp: "El DAG activa la PKC-theta, la cual interfiere con el receptor de insulina." },
-                { type: 'multiple', question: "¿Qué enzima es la 'llave de paso' para la entrada de ácidos grasos a la mitocondria?", options: ["Hexoquinasa", "CPT-1", "Piruvato deshidrogenasa", "Lipasa"], answer: "CPT-1", exp: "La Carnitina Palmitoiltransferasa 1 es inhibida por el Malonil-CoA." },
-                ...Array.from({length: 15}, (_, i) => ({
-                    type: 'desarrollo', 
-                    question: `Análisis de Caso Clínico Avanzado #${i+1}: Evalúe el impacto del estrés oxidativo en la disfunción endotelial diabética.`, 
-                    keywords: ["superóxido", "óxido nítrico", "endotelio", "estrés", "radicales"], 
-                    answer_guide: "El exceso de radicales libres reduce la biodisponibilidad de NO, causando vasoconstricción y daño vascular."
-                }))
+                { type: 'multiple', question: "¿Qué enzima es la 'llave de paso' para la entrada de ácidos grasos a la mitocondria?", options: ["Hexoquinasa", "CPT-1", "Piruvato deshidrogenasa", "Lipasa"], answer: "CPT-1", exp: "La Carnitina Palmitoiltransferasa 1 es inhibida por el Malonil-CoA." }
             ]
         };
     }
 
-    get currentQuestions() { return this.questionsBank[this.user.level]; }
-    getCurrentQuestion() { return this.currentQuestions[this.currentIndex]; }
+    // --- NUEVO: Función para barajar y no repetir ---
+    startLevel(level) {
+        this.user.level = level;
+        this.user.score = 0;
+        this.currentIndex = 0;
+
+        // 1. Clonar el banco de preguntas correspondiente
+        let bank = [...this.questionsBank[level]];
+
+        // 2. Barajar aleatoriamente (Algoritmo Fisher-Yates)
+        for (let i = bank.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [bank[i], bank[j]] = [bank[j], bank[i]];
+        }
+
+        // 3. Tomar solo las primeras 5 (o menos si hay poquitas en avanzado)
+        this.activeQuestions = bank.slice(0, 5);
+    }
+
+    get currentQuestions() { return this.activeQuestions; }
+    getCurrentQuestion() { return this.activeQuestions[this.currentIndex]; }
     
     checkAnswer(answer) {
         const q = this.getCurrentQuestion();
@@ -66,7 +74,7 @@ export class QuizModel {
         return { isCorrect, exp: q.exp || q.answer_guide };
     }
 
-    // --- NUEVO: Gestión de Persistencia de Datos ---
+    // Persistencia de Datos
     saveRecord() {
         const record = {
             date: new Date().toLocaleDateString(),
@@ -76,7 +84,6 @@ export class QuizModel {
         };
         let records = JSON.parse(localStorage.getItem('fisio_records')) || [];
         records.push(record);
-        // Ordenar por puntuación más alta
         records.sort((a, b) => b.score - a.score);
         localStorage.setItem('fisio_records', JSON.stringify(records));
     }

@@ -15,12 +15,17 @@ export class QuizController {
         this.view.renderMenu(
             (name, level) => {
                 this.model.user.name = name;
-                this.model.user.level = level;
+                
+                // --- SOLUCIÓN PREGUNTAS ÚNICAS ---
+                // En lugar de solo asignar el nivel, llamamos a la función que mezcla 
+                // y recorta a 5 preguntas únicas sin repetirse.
+                this.model.startLevel(level); 
+                
                 this.view.updateHeader(this.model.user);
                 this.startQuestion();
             },
             () => {
-                // Recuperar y mostrar historial
+                // Recuperar y mostrar historial (¡Este es tu código y está perfecto!)
                 const records = this.model.getRecords();
                 this.view.renderRecordsModal(records);
             }
@@ -84,7 +89,7 @@ export class QuizController {
     }
 
     showResult() {
-        // --- NUEVO: Guardar en el historial antes de terminar ---
+        // --- Guardar en el historial antes de terminar ---
         this.model.saveRecord();
 
         Swal.fire({
