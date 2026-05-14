@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://fisiopatoquiz.vercel.app/sitemap.xml
