@@ -1,30 +1,41 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <!-- SEO Técnico Principal -->
     <title>Quiz Fisiopatología | Evaluación Clínica Interactiva</title>
-    <meta name="description" content="Plataforma de evaluación interactiva para estudiantes y especialistas. Pon a prueba tus conocimientos con nuestro quiz de fisiopatología, diabetes y síndrome metabólico.">
-    <meta name="keywords" content="quiz fisiopatologia, examen fisiopatologia, test fisiopato, diabetes, resistencia a la insulina, evaluacion clinica">
+    <meta name="description"
+        content="Plataforma de evaluación interactiva para estudiantes y especialistas. Pon a prueba tus conocimientos con nuestro quiz de fisiopatología, diabetes y síndrome metabólico.">
+    <meta name="keywords"
+        content="quiz fisiopatologia, examen fisiopatologia, test fisiopato, diabetes, resistencia a la insulina, evaluacion clinica">
     <meta name="author" content="Jordan Araya">
-    <meta name="robots" content="index, follow"> <!-- Código que indica a Google que lea y siga los enlaces -->
+    <meta name="robots" content="index, follow">
+    <!-- Verificación de Google -->
     <meta name="google-site-verification" content="gX3EU9rOmBaCkU5aIsKEL9bontocL7PWsxCSRc_a8UY" />
-    <!-- Open Graph (SEO para redes sociales y vistas previas enriquecidas) -->
+
+    <!-- Open Graph -->
     <meta property="og:title" content="Quiz Fisiopatología | Evaluación Clínica">
-    <meta property="og:description" content="Mide tus conocimientos médicos en esta plataforma interactiva de alto rendimiento.">
+    <meta property="og:description"
+        content="Mide tus conocimientos médicos en esta plataforma interactiva de alto rendimiento.">
     <meta property="og:type" content="website">
-    
-    <!-- Fuentes y Estilos Externos -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+    <!-- Optimización de carga (Preconnect) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Fuentes y Estilos Externos (Asíncronos y Optimizados) -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Orbitron:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="stylesheet" href="css/styles.css">
-    
-    <!-- Scripts requeridos -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
+
 <body>
     <div class="bg-animated"></div>
 
@@ -37,7 +48,7 @@
                     <small id="display-level">NIVEL ACADÉMICO</small>
                 </div>
             </div>
-            
+
             <div class="timer-wrapper">
                 <div class="timer-circle">
                     <span id="timer-count">15</span>
@@ -74,7 +85,7 @@
 
     <!-- Modal para Tabla de Récords -->
     <div id="records-modal" class="modal-overlay hidden">
-        <div class="modal-content animate__animated animate__zoomIn">
+        <div class="modal-content">
             <h2><i class="fas fa-trophy" style="color: gold;"></i> Historial de Evaluaciones</h2>
             <div class="table-container">
                 <table>
@@ -91,10 +102,14 @@
                     </tbody>
                 </table>
             </div>
-            <button id="close-records-btn" class="main-btn" style="margin-top: 15px; width: 100%;">Cerrar Historial</button>
+            <button id="close-records-btn" class="main-btn" style="margin-top: 15px; width: 100%;">Cerrar
+                Historial</button>
         </div>
     </div>
 
+    <!-- Scripts movidos al final para no bloquear el renderizado -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
     <script type="module" src="js/app.js"></script>
 </body>
+
 </html>
