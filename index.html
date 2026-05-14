@@ -62,7 +62,21 @@
             </div>
         </header>
 
-        <main id="main-content"></main>
+        <main id="main-content">
+            <!-- Elemento estático para LCP (Se sobrescribe cuando carga JS) -->
+            <div id="lcp-skeleton"
+                style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 50vh; text-align: center; padding: 20px;">
+                <h1
+                    style="font-family: 'Orbitron', sans-serif; font-size: 2.5rem; color: #4facfe; margin-bottom: 10px;">
+                    FisioPatología
+                </h1>
+                <p style="font-family: 'Poppins', sans-serif; color: #e0e0e0; font-size: 1.2rem;">
+                    Iniciando entorno clínico...
+                </p>
+                <!-- Indicador de carga simple -->
+                <i class="fas fa-circle-notch fa-spin" style="font-size: 2rem; color: #4facfe; margin-top: 20px;"></i>
+            </div>
+        </main>
 
         <footer class="corporate-footer">
             <div class="footer-content">
